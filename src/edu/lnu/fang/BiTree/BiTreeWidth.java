@@ -14,7 +14,7 @@ import edu.lnu.fang.BiTree.BinTreeTra.Node;
  */
 public class BiTreeWidth {
 
-	 
+	int [] L=new int[100000];
 	/**
 	 * 非递归方法
 	 *  
@@ -30,27 +30,43 @@ public class BiTreeWidth {
 			return 0;
 		}
 		queue[++rear]=root;
-		L[++rear]=1;//第一个节点的层次是1
+		L[rear]=1;//第一个节点的层次是1
 		Node p;
 		while(front<rear){
 			p=queue[++front];
 			if(p.leftChild!=null){
 				queue[++rear]=p.leftChild;
+				L[rear]=level+2;
 				
 			}
 			if(p.rightChild!=null){
 				queue[++rear]=p.rightChild;
+				L[rear]=level+2;
 			}
 			if(front==last){
 				level++;
 				last=rear;
 			}
 		}
-		return level;
+		int n=0;//每层宽度
+		int m=0;//最大宽度
+		int i=0;
+		for(int k=1;k<=level;k++){
+			n=0;
+			for(;L[i]==k;i++){
+				n++;
+			}
+			if(n>m){
+				m=n;
+			}
+		}
+		
+		
+		return m;
 	}
 
 	public static void main(String[] args) {
 		Node root = BinTreeTra.init();
-		 
+		System.out.println(btwidth(root));
 	}
 }
